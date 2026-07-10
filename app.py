@@ -43,7 +43,7 @@ humidity = st.number_input(
 import urllib.parse
 
 
-SERVICE_KEY = "여기에_너_API_인증키"
+SERVICE_KEY = "207879c80838329e9010dc7b2f4556f75109de42fd77342f45ad0c34ff1ea5ab"
 
 
 def get_solar():
