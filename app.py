@@ -96,9 +96,11 @@ def get_solar():
 
         return solar
 
-    except:
-        return 0.0
-
+   except Exception as e:
+    st.write("API 응답 오류:", e)
+    st.write("받은 데이터:")
+    st.write(data)
+    return 0.0
 
 
 solar = get_solar()
