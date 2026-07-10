@@ -1,13 +1,22 @@
 import streamlit as st
-import pandas as pd
+import requests
 import joblib
-import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 from datetime import datetime
+import os
 
 
-# 모델 불러오기
+st.write("📂 Files:")
+st.write(os.listdir())
+
+st.write(
+    "📦 solar_model.pkl size:",
+    os.path.getsize("solar_model.pkl")
+)
+
+
 model = joblib.load("solar_model.pkl")
-
 
 # 제목
 st.title("☀️ Solar Power Prediction System")
