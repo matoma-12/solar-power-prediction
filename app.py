@@ -35,9 +35,68 @@ humidity = st.number_input(
     value=70
 )
 
-radiation = st.number_input(
-    "Solar Radiation (MJ/m²)",
-    value=15.0
+# ==========================
+# KIER 실시간 일사량 API
+# ==========================
+
+import urllib.parse
+
+
+SERVICE_KEY = "여기에_너_API_인증키"
+
+
+def get_solar():
+
+    now = datetime.now()
+
+    date = now.strftime("%Y%m%d")
+    time = now.strftime("%H00")
+
+    url = (
+        "https://apis.data.go.kr/B551184/SrQtyService/getSrQtyStdgInfo"
+    )
+
+
+    params = {
+        "serviceKey": SERVICE_KEY,
+        "pageNo": 1,
+        "numOfRows": 10,
+        "type": "json",
+        "date": date,
+        "time": time,
+        "stdgCd": "2811010100"
+    }
+
+
+    response = requests.get(
+        url,
+        params=params
+    )
+
+
+    data = response.json()
+
+
+    try:
+        item = data["response"]["body"]["items"]["item"][0]
+
+        solar = float(
+            item["srQty"]
+        )
+
+        return solar
+
+    except:
+        return 0.0
+
+
+
+solar = get_solar()
+
+
+st.metric(
+    "☀ Solar Radiation",
+    f"{solar} MJ/m²"
 )
 
 
