@@ -10,9 +10,12 @@ from datetime import datetime
 # 모델 불러오기
 # ==========================
 
-model = joblib.load("solar_model.pkl")
+@st.cache_resource
+def load_model():
+    return joblib.load("solar_model.pkl")
 
 
+model = load_model()
 # ==========================
 # 제목
 # ==========================
@@ -53,9 +56,7 @@ def get_solar():
 
 
     # API 확인용
-    st.subheader("API Response")
-    st.write(response.status_code)
-    st.json(response.json())
+   st.write("API status:", response.status_code)
 
 
     try:
@@ -72,13 +73,9 @@ def get_solar():
         return solar
 
 
-    except Exception as e:
-
-        st.error("일사량 가져오기 실패")
-        st.write(e)
-
-        return 0.0
-
+except Exception as e:
+    st.error(e)
+    return 0.0
 
 
 # ==========================
